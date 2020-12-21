@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package com.github.veithen.cosmos.maven.p2.connector;
+package com.github.veithen.maven.p2.connector;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,9 +53,9 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.github.veithen.cosmos.maven.p2.ArtifactCoordinateMapper;
-import com.github.veithen.cosmos.maven.p2.P2Coordinate;
-import com.github.veithen.cosmos.maven.p2.ProxyHolder;
+import com.github.veithen.maven.p2.ArtifactCoordinateMapper;
+import com.github.veithen.maven.p2.P2Coordinate;
+import com.github.veithen.maven.p2.ProxyHolder;
 
 final class P2RepositoryConnector implements RepositoryConnector {
     private static final Logger logger = LoggerFactory.getLogger(P2RepositoryConnector.class);

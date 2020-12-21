@@ -17,20 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package com.github.veithen.cosmos.maven.p2.connector;
+package com.github.veithen.maven.p2.connector;
 
-final class DownloadException extends Exception {
-    private static final long serialVersionUID = 1L;
+import java.io.IOException;
+import java.io.OutputStream;
 
-    DownloadException(Throwable cause) {
-        super(cause);
-    }
-
-    DownloadException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    DownloadException(String message) {
-        super(message);
-    }
+abstract class ContentProvider {
+    abstract void writeTo(OutputStream out) throws IOException, DownloadException;
 }

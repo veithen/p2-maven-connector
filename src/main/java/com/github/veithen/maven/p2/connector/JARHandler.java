@@ -17,15 +17,30 @@
  * limitations under the License.
  * #L%
  */
-package com.github.veithen.cosmos.maven.p2.connector;
+package com.github.veithen.maven.p2.connector;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 import org.eclipse.aether.artifact.Artifact;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.equinox.p2.repository.artifact.IArtifactDescriptor;
 import org.eclipse.equinox.p2.repository.artifact.IArtifactRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-abstract class ArtifactHandler {
-    abstract void download(Artifact artifact, IArtifactRepository artifactRepository, IArtifactDescriptor descriptor, OutputStream out) throws IOException, DownloadException;
+final class JARHandler extends ArtifactHandler {
+    private static final Logger logger = LoggerFactory.getLogger(JARHandler.class);
+
+    @Override
+    void download(Artifact artifact, IArtifactRepository artifactRepository, IArtifactDescriptor descriptor, OutputStream out) throws IOException, DownloadException {
+        IStatus status;
+        status = artifactRepository.getArtifact(descriptor, out, new SystemOutProgressMonitor());
+        if (logger.isDebugEnabled()) {
+            logger.debug(String.format("Status: %s", status));
+        }
+        if (!status.isOK()) {
+            throw new DownloadException(status.getMessage(), status.getException());
+        }
+    }
 }

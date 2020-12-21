@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package com.github.veithen.cosmos.maven.p2.connector;
+package com.github.veithen.maven.p2.connector;
 
 import java.util.Locale;
 

@@ -17,12 +17,12 @@
  * limitations under the License.
  * #L%
  */
-package com.github.veithen.cosmos.maven.p2.connector;
+package com.github.veithen.maven.p2.connector;
 
 import org.eclipse.aether.repository.Proxy;
 import org.eclipse.core.net.proxy.IProxyData;
 
-import com.github.veithen.cosmos.maven.p2.ProxyDataProvider;
+import com.github.veithen.maven.p2.ProxyDataProvider;
 
 final class AetherProxyDataProvider implements ProxyDataProvider {
     private final Proxy proxy;

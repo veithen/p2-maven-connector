@@ -17,10 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package com.github.veithen.cosmos.maven.p2;
+package com.github.veithen.maven.p2.connector;
 
-import org.eclipse.core.net.proxy.IProxyData;
+final class DownloadException extends Exception {
+    private static final long serialVersionUID = 1L;
 
-public interface ProxyDataProvider {
-    IProxyData getProxyData(String protocol);
+    DownloadException(Throwable cause) {
+        super(cause);
+    }
+
+    DownloadException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    DownloadException(String message) {
+        super(message);
+    }
 }

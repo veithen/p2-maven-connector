@@ -17,11 +17,15 @@
  * limitations under the License.
  * #L%
  */
-package com.github.veithen.cosmos.maven.p2.connector;
+package com.github.veithen.maven.p2.connector;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-abstract class ContentProvider {
-    abstract void writeTo(OutputStream out) throws IOException, DownloadException;
+import org.eclipse.aether.artifact.Artifact;
+import org.eclipse.equinox.p2.repository.artifact.IArtifactDescriptor;
+import org.eclipse.equinox.p2.repository.artifact.IArtifactRepository;
+
+abstract class ArtifactHandler {
+    abstract void download(Artifact artifact, IArtifactRepository artifactRepository, IArtifactDescriptor descriptor, OutputStream out) throws IOException, DownloadException;
 }
