@@ -296,7 +296,7 @@
             <plugin>
                 <groupId>com.github.veithen.maven</groupId>
                 <artifactId>p2-publisher-maven-plugin</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
                 <executions>
                     <execution>
                         <phase>pre-integration-test</phase>
