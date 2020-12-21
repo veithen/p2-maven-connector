@@ -29,7 +29,7 @@
 
     <groupId>com.github.veithen.maven</groupId>
     <artifactId>p2-maven-connector</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1-SNAPSHOT</version>
 
     <url>https://github.com/veithen/p2-maven-connector</url>
     <inceptionYear>2012</inceptionYear>
@@ -45,7 +45,7 @@
         <url>https://github.com/veithen/p2-maven-connector/tree/master</url>
         <connection>scm:git:http://github.com/veithen/p2-maven-connector.git</connection>
         <developerConnection>scm:git:https://github.com/veithen/p2-maven-connector.git</developerConnection>
-        <tag>0.4.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
