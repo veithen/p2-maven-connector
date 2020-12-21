@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    ignore:
+      - dependency-name: "org.eclipse.platform:org.eclipse.equinox.p2.repository"
+        versions: ">= 2.5.0"
+  - package-ecosystem: "maven"
+    directory: "/src/it/proxy-test"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "maven"
+    directory: "/src/it/test1"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "maven"
+    directory: "/src/it/version-range"
+    schedule:
+      interval: "daily"
