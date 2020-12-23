@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,15 +23,12 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 final class SystemOutProgressMonitor implements IProgressMonitor {
     private boolean canceled;
-    
-    public void beginTask(String name, int totalWork) {
-    }
 
-    public void done() {
-    }
+    public void beginTask(String name, int totalWork) {}
 
-    public void internalWorked(double work) {
-    }
+    public void done() {}
+
+    public void internalWorked(double work) {}
 
     public boolean isCanceled() {
         return canceled;
@@ -41,8 +38,7 @@ final class SystemOutProgressMonitor implements IProgressMonitor {
         canceled = value;
     }
 
-    public void setTaskName(String name) {
-    }
+    public void setTaskName(String name) {}
 
     public void subTask(String name) {
         if (name.length() > 0) {
@@ -50,6 +46,5 @@ final class SystemOutProgressMonitor implements IProgressMonitor {
         }
     }
 
-    public void worked(int work) {
-    }
+    public void worked(int work) {}
 }

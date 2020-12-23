@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,20 +59,21 @@ import com.github.veithen.maven.p2.ProxyHolder;
 
 final class P2RepositoryConnector implements RepositoryConnector {
     private static final Logger logger = LoggerFactory.getLogger(P2RepositoryConnector.class);
-    
-    private static final Map<String,ArtifactHandler> artifactHandlers;
-    
+
+    private static final Map<String, ArtifactHandler> artifactHandlers;
+
     static {
         artifactHandlers = new HashMap<>();
         artifactHandlers.put("jar", new JARHandler());
         artifactHandlers.put("pom", new POMHandler());
     }
-    
+
     private final RemoteRepository repository;
     private final IArtifactRepositoryManager artifactRepositoryManager;
     private IArtifactRepository artifactRepository;
 
-    P2RepositoryConnector(RemoteRepository repository, IArtifactRepositoryManager artifactRepositoryManager) {
+    P2RepositoryConnector(
+            RemoteRepository repository, IArtifactRepositoryManager artifactRepositoryManager) {
         this.repository = repository;
         this.artifactRepositoryManager = artifactRepositoryManager;
     }
@@ -83,7 +84,9 @@ final class P2RepositoryConnector implements RepositoryConnector {
                 logger.debug(String.format("Loading repository %s", repository.getUrl()));
             }
             try {
-                artifactRepository = artifactRepositoryManager.loadRepository(new URI(repository.getUrl()), new SystemOutProgressMonitor());
+                artifactRepository =
+                        artifactRepositoryManager.loadRepository(
+                                new URI(repository.getUrl()), new SystemOutProgressMonitor());
             } catch (URISyntaxException | ProvisionException ex) {
                 throw new DownloadException(ex);
             }
@@ -100,7 +103,8 @@ final class P2RepositoryConnector implements RepositoryConnector {
         try {
             tmpFile = File.createTempFile(file.getName(), ".tmp", dir);
         } catch (IOException ex) {
-            throw new DownloadException(String.format("Unable to create temporary file in %s", dir));
+            throw new DownloadException(
+                    String.format("Unable to create temporary file in %s", dir));
         }
         boolean success = false;
         try {
@@ -108,7 +112,8 @@ final class P2RepositoryConnector implements RepositoryConnector {
                 contentProvider.writeTo(out);
             }
             if (!tmpFile.renameTo(file)) {
-                throw new DownloadException(String.format("Failed to move file into place (%s)", file));
+                throw new DownloadException(
+                        String.format("Failed to move file into place (%s)", file));
             }
             success = true;
         } catch (IOException ex) {
@@ -131,7 +136,9 @@ final class P2RepositoryConnector implements RepositoryConnector {
             logger.debug(String.format("Resolving artifact %s...", p2Coordinate));
         }
         final IArtifactRepository artifactRepository = getArtifactRepository();
-        IArtifactDescriptor[] descriptors = artifactRepository.getArtifactDescriptors(p2Coordinate.createIArtifactKey(artifactRepository));
+        IArtifactDescriptor[] descriptors =
+                artifactRepository.getArtifactDescriptors(
+                        p2Coordinate.createIArtifactKey(artifactRepository));
         if (descriptors.length == 0) {
             logger.debug("Not found");
             return false;
@@ -146,14 +153,19 @@ final class P2RepositoryConnector implements RepositoryConnector {
             return false;
         }
         if (logger.isDebugEnabled()) {
-            logger.debug(String.format("Using handler of type %s", artifactHandler.getClass().getSimpleName()));
+            logger.debug(
+                    String.format(
+                            "Using handler of type %s",
+                            artifactHandler.getClass().getSimpleName()));
         }
-        writeFile(artifactDownload.getFile(), new ContentProvider() {
-            @Override
-            void writeTo(OutputStream out) throws IOException, DownloadException {
-                artifactHandler.download(artifact, artifactRepository, descriptor, out);
-            }
-        });
+        writeFile(
+                artifactDownload.getFile(),
+                new ContentProvider() {
+                    @Override
+                    void writeTo(OutputStream out) throws IOException, DownloadException {
+                        artifactHandler.download(artifact, artifactRepository, descriptor, out);
+                    }
+                });
         logger.debug("Artifact download complete");
         return true;
     }
@@ -161,9 +173,11 @@ final class P2RepositoryConnector implements RepositoryConnector {
     private boolean process(MetadataDownload metadataDownload) throws DownloadException {
         IArtifactRepository artifactRepository = getArtifactRepository();
         Metadata metadata = metadataDownload.getMetadata();
-        IQueryResult<IArtifactKey> queryResult = artifactRepository.query(
-                ArtifactCoordinateMapper.createArtifactKeyQuery(metadata.getGroupId(), metadata.getArtifactId()),
-                new SystemOutProgressMonitor());
+        IQueryResult<IArtifactKey> queryResult =
+                artifactRepository.query(
+                        ArtifactCoordinateMapper.createArtifactKeyQuery(
+                                metadata.getGroupId(), metadata.getArtifactId()),
+                        new SystemOutProgressMonitor());
         if (queryResult.isEmpty()) {
             return false;
         }
@@ -185,31 +199,40 @@ final class P2RepositoryConnector implements RepositoryConnector {
             versionElement.setTextContent(artifactKey.getVersion().toString());
             versionsElement.appendChild(versionElement);
         }
-        writeFile(metadataDownload.getFile(), new ContentProvider() {
-            @Override
-            void writeTo(OutputStream out) throws IOException, DownloadException {
-                DOMUtil.serialize(document, out);
-            }
-        });
+        writeFile(
+                metadataDownload.getFile(),
+                new ContentProvider() {
+                    @Override
+                    void writeTo(OutputStream out) throws IOException, DownloadException {
+                        DOMUtil.serialize(document, out);
+                    }
+                });
         return true;
     }
 
     @Override
-    public void get(Collection<? extends ArtifactDownload> artifactDownloads,
+    public void get(
+            Collection<? extends ArtifactDownload> artifactDownloads,
             Collection<? extends MetadataDownload> metadataDownloads) {
         ProxyHolder.Lease lease;
         try {
             Proxy proxy = repository.getProxy();
-            lease = ProxyHolder.withProxyDataProvider(proxy == null ? null : new AetherProxyDataProvider(proxy));
+            lease =
+                    ProxyHolder.withProxyDataProvider(
+                            proxy == null ? null : new AetherProxyDataProvider(proxy));
         } catch (InterruptedException ex) {
             if (artifactDownloads != null) {
                 for (ArtifactDownload artifactDownload : artifactDownloads) {
-                    artifactDownload.setException(new ArtifactTransferException(artifactDownload.getArtifact(), repository, ex));
+                    artifactDownload.setException(
+                            new ArtifactTransferException(
+                                    artifactDownload.getArtifact(), repository, ex));
                 }
             }
             if (metadataDownloads != null) {
                 for (MetadataDownload metadataDownload : metadataDownloads) {
-                    metadataDownload.setException(new MetadataTransferException(metadataDownload.getMetadata(), repository, ex));
+                    metadataDownload.setException(
+                            new MetadataTransferException(
+                                    metadataDownload.getMetadata(), repository, ex));
                 }
             }
             Thread.currentThread().interrupt();
@@ -220,11 +243,18 @@ final class P2RepositoryConnector implements RepositoryConnector {
                 for (ArtifactDownload artifactDownload : artifactDownloads) {
                     try {
                         if (!process(artifactDownload)) {
-                            artifactDownload.setException(new ArtifactNotFoundException(artifactDownload.getArtifact(), repository));
+                            artifactDownload.setException(
+                                    new ArtifactNotFoundException(
+                                            artifactDownload.getArtifact(), repository));
                         }
                     } catch (DownloadException ex) {
                         logger.debug("Caught exception", ex);
-                        artifactDownload.setException(new ArtifactTransferException(artifactDownload.getArtifact(), repository, ex.getMessage(), ex.getCause()));
+                        artifactDownload.setException(
+                                new ArtifactTransferException(
+                                        artifactDownload.getArtifact(),
+                                        repository,
+                                        ex.getMessage(),
+                                        ex.getCause()));
                     }
                 }
             }
@@ -232,11 +262,18 @@ final class P2RepositoryConnector implements RepositoryConnector {
                 for (MetadataDownload metadataDownload : metadataDownloads) {
                     try {
                         if (!process(metadataDownload)) {
-                            metadataDownload.setException(new MetadataNotFoundException(metadataDownload.getMetadata(), repository));
+                            metadataDownload.setException(
+                                    new MetadataNotFoundException(
+                                            metadataDownload.getMetadata(), repository));
                         }
                     } catch (DownloadException ex) {
                         logger.debug("Caught exception", ex);
-                        metadataDownload.setException(new MetadataTransferException(metadataDownload.getMetadata(), repository, ex.getMessage(), ex.getCause()));
+                        metadataDownload.setException(
+                                new MetadataTransferException(
+                                        metadataDownload.getMetadata(),
+                                        repository,
+                                        ex.getMessage(),
+                                        ex.getCause()));
                     }
                 }
             }
@@ -246,23 +283,24 @@ final class P2RepositoryConnector implements RepositoryConnector {
     }
 
     @Override
-    public void put(Collection<? extends ArtifactUpload> artifactUploads,
+    public void put(
+            Collection<? extends ArtifactUpload> artifactUploads,
             Collection<? extends MetadataUpload> metadataUploads) {
         // TODO: figure out right exception
         if (artifactUploads != null) {
             for (ArtifactUpload artifactDownload : artifactUploads) {
-                artifactDownload.setException(new ArtifactNotFoundException(artifactDownload.getArtifact(), repository));
+                artifactDownload.setException(
+                        new ArtifactNotFoundException(artifactDownload.getArtifact(), repository));
             }
         }
         if (metadataUploads != null) {
             for (MetadataUpload metadataDownload : metadataUploads) {
-                metadataDownload.setException(new MetadataNotFoundException(metadataDownload.getMetadata(), repository));
+                metadataDownload.setException(
+                        new MetadataNotFoundException(metadataDownload.getMetadata(), repository));
             }
         }
     }
 
     @Override
-    public void close() {
-
-    }
+    public void close() {}
 }

@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ import org.w3c.dom.ls.LSSerializer;
 
 final class DOMUtil {
     private static final DocumentBuilder documentBuilder;
-    
+
     static {
         try {
             documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -40,15 +40,15 @@ final class DOMUtil {
             throw new Error(ex);
         }
     }
-    
+
     private DOMUtil() {}
-    
+
     static Document createDocument() {
         return documentBuilder.newDocument();
     }
 
     static void serialize(Document document, OutputStream out) {
-        DOMImplementationLS ls = (DOMImplementationLS)document.getImplementation();
+        DOMImplementationLS ls = (DOMImplementationLS) document.getImplementation();
         LSSerializer serializer = ls.createLSSerializer();
         LSOutput output = ls.createLSOutput();
         output.setByteStream(out);

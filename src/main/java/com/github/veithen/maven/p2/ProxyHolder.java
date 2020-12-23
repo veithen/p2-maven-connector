@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,8 +28,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Holds the currently configured proxy.
- * <p>
- * The P2 code only supports one globally configured proxy. This component holds the reference to
+ *
+ * <p>The P2 code only supports one globally configured proxy. This component holds the reference to
  * the proxy that is currently configured. It is designed to allow two threads to proceed
  * concurrently if they are using the same proxy.
  */
@@ -46,7 +46,8 @@ public final class ProxyHolder {
 
     private ProxyHolder() {}
 
-    public static Lease withProxyDataProvider(ProxyDataProvider proxyDataProvider) throws InterruptedException {
+    public static Lease withProxyDataProvider(ProxyDataProvider proxyDataProvider)
+            throws InterruptedException {
         synchronized (lock) {
             while (true) {
                 boolean proxySet = !leases.isEmpty();
@@ -59,21 +60,22 @@ public final class ProxyHolder {
                         }
                         currentProxyDataProvider = proxyDataProvider;
                     }
-                    Lease lease = new Lease() {
-                        @Override
-                        public void close() {
-                            synchronized (lock) {
-                                if (!leases.remove(this)) {
-                                    throw new IllegalStateException();
+                    Lease lease =
+                            new Lease() {
+                                @Override
+                                public void close() {
+                                    synchronized (lock) {
+                                        if (!leases.remove(this)) {
+                                            throw new IllegalStateException();
+                                        }
+                                        if (leases.isEmpty()) {
+                                            logger.debug("Unsetting proxy");
+                                            currentProxyDataProvider = null;
+                                        }
+                                        lock.notifyAll();
+                                    }
                                 }
-                                if (leases.isEmpty()) {
-                                    logger.debug("Unsetting proxy");
-                                    currentProxyDataProvider = null;
-                                }
-                                lock.notifyAll();
-                            }
-                        }
-                    };
+                            };
                     leases.add(lease);
                     return lease;
                 }
@@ -82,7 +84,7 @@ public final class ProxyHolder {
             }
         }
     }
-    
+
     public static ProxyDataProvider getCurrentProxyDataProvider() {
         synchronized (lock) {
             return currentProxyDataProvider;
