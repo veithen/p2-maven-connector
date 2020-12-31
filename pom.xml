@@ -224,7 +224,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-proxy</artifactId>
-            <version>9.2.24.v20180105</version>
+            <version>9.4.35.v20201120</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -327,7 +327,7 @@
             <plugin>
                 <groupId>com.github.veithen.daemon</groupId>
                 <artifactId>daemon-maven-plugin</artifactId>
-                <version>0.1.1</version>
+                <version>0.2.0</version>
                 <executions>
                     <execution>
                         <id>start-repo</id>
