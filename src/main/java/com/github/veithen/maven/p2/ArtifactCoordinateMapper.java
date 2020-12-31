@@ -20,32 +20,11 @@
 package com.github.veithen.maven.p2;
 
 import org.eclipse.aether.artifact.Artifact;
-import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.equinox.p2.repository.artifact.ArtifactKeyQuery;
 
 public final class ArtifactCoordinateMapper {
     private ArtifactCoordinateMapper() {}
-
-    public static Artifact createArtifact(P2Coordinate p2Coordinate) {
-        String id = p2Coordinate.getId();
-        String artifactId;
-        String classifier;
-        if (id.endsWith(".source")) {
-            artifactId = id.substring(0, id.length() - 7);
-            classifier = "sources";
-        } else {
-            artifactId = id;
-            classifier = null;
-        }
-        Version version = p2Coordinate.getVersion();
-        return new DefaultArtifact(
-                p2Coordinate.getClassifier(),
-                artifactId,
-                classifier,
-                "jar",
-                version == null ? "" : version.toString());
-    }
 
     public static P2Coordinate createP2Coordinate(Artifact artifact) {
         String id;
