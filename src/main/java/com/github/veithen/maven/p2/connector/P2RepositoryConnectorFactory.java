@@ -54,39 +54,44 @@ public final class P2RepositoryConnectorFactory implements RepositoryConnectorFa
         return 0;
     }
 
+    private synchronized IProvisioningAgent getProvisioningAgent(File localRepositoryDir) {
+        IProvisioningAgent provisioningAgent = provisioningAgents.get(localRepositoryDir);
+        if (provisioningAgent == null) {
+            if (logger.isDebugEnabled()) {
+                logger.debug(
+                        String.format(
+                                "Creating new provisioning agent for local repository %s",
+                                localRepositoryDir));
+            }
+            try {
+                provisioningAgent =
+                        CosmosRuntime.getInstance()
+                                .getService(IProvisioningAgentProvider.class)
+                                .createAgent(new File(localRepositoryDir, ".p2-metadata").toURI());
+            } catch (BundleException | ProvisionException ex) {
+                logger.error(
+                        String.format(
+                                "Failed to create provisioning agent for local repository %s",
+                                localRepositoryDir));
+                throw new Error(ex);
+            }
+            provisioningAgents.put(localRepositoryDir, provisioningAgent);
+        }
+        return provisioningAgent;
+    }
+
     @Override
     public RepositoryConnector newInstance(
             RepositorySystemSession session, RemoteRepository repository)
             throws NoRepositoryConnectorException {
         if (repository.getContentType().equals("p2")) {
             File localRepositoryDir = session.getLocalRepository().getBasedir();
-            IProvisioningAgent provisioningAgent = provisioningAgents.get(localRepositoryDir);
-            if (provisioningAgent == null) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug(
-                            String.format(
-                                    "Creating new provisioning agent for local repository %s",
-                                    localRepositoryDir));
-                }
-                try {
-                    provisioningAgent =
-                            CosmosRuntime.getInstance()
-                                    .getService(IProvisioningAgentProvider.class)
-                                    .createAgent(
-                                            new File(localRepositoryDir, ".p2-metadata").toURI());
-                } catch (BundleException | ProvisionException ex) {
-                    logger.error(
-                            String.format(
-                                    "Failed to create provisioning agent for local repository %s",
-                                    localRepositoryDir));
-                    throw new NoRepositoryConnectorException(repository, ex);
-                }
-                provisioningAgents.put(localRepositoryDir, provisioningAgent);
-            }
             return new P2RepositoryConnector(
                     repository,
-                    (IArtifactRepositoryManager)
-                            provisioningAgent.getService(IArtifactRepositoryManager.SERVICE_NAME));
+                    () ->
+                            (IArtifactRepositoryManager)
+                                    getProvisioningAgent(localRepositoryDir)
+                                            .getService(IArtifactRepositoryManager.SERVICE_NAME));
         } else {
             throw new NoRepositoryConnectorException(repository);
         }

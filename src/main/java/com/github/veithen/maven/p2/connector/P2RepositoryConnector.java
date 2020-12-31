@@ -28,6 +28,7 @@ import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.metadata.Metadata;
@@ -70,11 +71,12 @@ final class P2RepositoryConnector implements RepositoryConnector {
     }
 
     private final RemoteRepository repository;
-    private final IArtifactRepositoryManager artifactRepositoryManager;
+    private final Supplier<IArtifactRepositoryManager> artifactRepositoryManager;
     private IArtifactRepository artifactRepository;
 
     P2RepositoryConnector(
-            RemoteRepository repository, IArtifactRepositoryManager artifactRepositoryManager) {
+            RemoteRepository repository,
+            Supplier<IArtifactRepositoryManager> artifactRepositoryManager) {
         this.repository = repository;
         this.artifactRepositoryManager = artifactRepositoryManager;
     }
@@ -86,8 +88,11 @@ final class P2RepositoryConnector implements RepositoryConnector {
             }
             try {
                 artifactRepository =
-                        artifactRepositoryManager.loadRepository(
-                                new URI(repository.getUrl()), new SystemOutProgressMonitor());
+                        artifactRepositoryManager
+                                .get()
+                                .loadRepository(
+                                        new URI(repository.getUrl()),
+                                        new SystemOutProgressMonitor());
             } catch (URISyntaxException | ProvisionException ex) {
                 throw new DownloadException(ex);
             }
