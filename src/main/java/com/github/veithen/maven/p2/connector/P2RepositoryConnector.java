@@ -45,6 +45,7 @@ import org.eclipse.aether.transfer.MetadataTransferException;
 import org.eclipse.equinox.p2.core.ProvisionException;
 import org.eclipse.equinox.p2.metadata.IArtifactKey;
 import org.eclipse.equinox.p2.query.IQueryResult;
+import org.eclipse.equinox.p2.repository.artifact.ArtifactKeyQuery;
 import org.eclipse.equinox.p2.repository.artifact.IArtifactDescriptor;
 import org.eclipse.equinox.p2.repository.artifact.IArtifactRepository;
 import org.eclipse.equinox.p2.repository.artifact.IArtifactRepositoryManager;
@@ -171,13 +172,16 @@ final class P2RepositoryConnector implements RepositoryConnector {
     }
 
     private boolean process(MetadataDownload metadataDownload) throws DownloadException {
-        IArtifactRepository artifactRepository = getArtifactRepository();
         Metadata metadata = metadataDownload.getMetadata();
+        ArtifactKeyQuery query =
+                ArtifactCoordinateMapper.createArtifactKeyQuery(
+                        metadata.getGroupId(), metadata.getArtifactId());
+        if (query == null) {
+            return false;
+        }
+        IArtifactRepository artifactRepository = getArtifactRepository();
         IQueryResult<IArtifactKey> queryResult =
-                artifactRepository.query(
-                        ArtifactCoordinateMapper.createArtifactKeyQuery(
-                                metadata.getGroupId(), metadata.getArtifactId()),
-                        new SystemOutProgressMonitor());
+                artifactRepository.query(query, new SystemOutProgressMonitor());
         if (queryResult.isEmpty()) {
             return false;
         }

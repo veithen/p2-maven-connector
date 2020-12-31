@@ -19,14 +19,24 @@
  */
 package com.github.veithen.maven.p2;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.equinox.p2.repository.artifact.ArtifactKeyQuery;
 
 public final class ArtifactCoordinateMapper {
+    private static final Set<String> supportedP2Classifiers =
+            new HashSet<>(Arrays.asList("osgi.bundle"));
+
     private ArtifactCoordinateMapper() {}
 
     public static P2Coordinate createP2Coordinate(Artifact artifact) {
+        if (!supportedP2Classifiers.contains(artifact.getGroupId())) {
+            return null;
+        }
         String id;
         String classifier = artifact.getClassifier();
         if (classifier.isEmpty()) {
@@ -46,6 +56,9 @@ public final class ArtifactCoordinateMapper {
     }
 
     public static ArtifactKeyQuery createArtifactKeyQuery(String groupId, String artifactId) {
+        if (!supportedP2Classifiers.contains(groupId)) {
+            return null;
+        }
         return new ArtifactKeyQuery(groupId, artifactId, null);
     }
 }

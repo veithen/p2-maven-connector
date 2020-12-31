@@ -27,7 +27,7 @@ import org.junit.Test;
 
 public class ArtifactCoordinateMapperTest {
     @Test
-    public void testCreateIArtifactKey() {
+    public void testCreateP2Coordinate() {
         P2Coordinate p2Coordinate =
                 ArtifactCoordinateMapper.createP2Coordinate(
                         new DefaultArtifact("osgi.bundle", "mybundle", "jar", "2.1.0"));
@@ -37,11 +37,28 @@ public class ArtifactCoordinateMapperTest {
     }
 
     @Test
+    public void testCreateP2CoordinateWithNonOSGiBundle() {
+        assertThat(
+                        ArtifactCoordinateMapper.createP2Coordinate(
+                                new DefaultArtifact(
+                                        "commons-logging", "commons-logging", "jar", "1.0")))
+                .isNull();
+    }
+
+    @Test
     public void testCreateP2CoordinateWithInvalidVersion() {
         assertThat(
                         ArtifactCoordinateMapper.createP2Coordinate(
                                 new DefaultArtifact(
                                         "osgi.bundle", "somebundle", "jar", "3.0-something")))
+                .isNull();
+    }
+
+    @Test
+    public void testCreateArtifactKeyQueryWithNonOSGiBundle() {
+        assertThat(
+                        ArtifactCoordinateMapper.createArtifactKeyQuery(
+                                "commons-logging", "commons-logging"))
                 .isNull();
     }
 }
