@@ -274,26 +274,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <id>reserve-network-port</id>
-                        <goals>
-                            <goal>reserve-network-port</goal>
-                        </goals>
-                        <phase>pre-integration-test</phase>
-                        <configuration>
-                            <portNames>
-                                <portName>repo.httpPort</portName>
-                                <portName>proxy.httpPort</portName>
-                            </portNames>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>com.github.veithen.maven</groupId>
                 <artifactId>p2-publisher-maven-plugin</artifactId>
                 <version>0.4.0</version>
@@ -327,31 +307,51 @@
             <plugin>
                 <groupId>com.github.veithen.daemon</groupId>
                 <artifactId>daemon-maven-plugin</artifactId>
-                <version>0.2.1</version>
+                <version>0.3.0-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <id>start-repo</id>
                         <goals>
-                            <goal>start-webapp</goal>
+                            <goal>start</goal>
                         </goals>
                         <configuration>
-                            <port>${repo.httpPort}</port>
-                            <resourceBases>
-                                <resourceBase>${project.build.directory}/repo</resourceBase>
-                            </resourceBases>
+                            <daemonArtifact>
+                                <artifactId>jetty-daemon</artifactId>
+                            </daemonArtifact>
+                            <ports>
+                                <port>
+                                    <name>http</name>
+                                    <propertyName>repo.httpPort</propertyName>
+                                </port>
+                            </ports>
+                            <daemonConfiguration>
+                                <resourceBases>
+                                    <resourceBase>${project.build.directory}/repo</resourceBase>
+                                </resourceBases>
+                            </daemonConfiguration>
                         </configuration>
                     </execution>
                     <execution>
                         <id>start-proxy</id>
                         <goals>
-                            <goal>start-webapp</goal>
+                            <goal>start</goal>
                         </goals>
                         <configuration>
-                            <port>${proxy.httpPort}</port>
-                            <resourceBases>
-                                <resourceBase>${project.basedir}/src/test/webapp/proxy</resourceBase>
-                            </resourceBases>
-                            <requestLog>${project.build.directory}/proxy.log</requestLog>
+                            <daemonArtifact>
+                                <artifactId>jetty-daemon</artifactId>
+                            </daemonArtifact>
+                            <ports>
+                                <port>
+                                    <name>http</name>
+                                    <propertyName>proxy.httpPort</propertyName>
+                                </port>
+                            </ports>
+                            <daemonConfiguration>
+                                <resourceBases>
+                                    <resourceBase>${project.basedir}/src/test/webapp/proxy</resourceBase>
+                                </resourceBases>
+                                <requestLog>${project.build.directory}/proxy.log</requestLog>
+                            </daemonConfiguration>
                         </configuration>
                     </execution>
                     <execution>
