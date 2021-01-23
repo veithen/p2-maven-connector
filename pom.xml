@@ -307,7 +307,7 @@
             <plugin>
                 <groupId>com.github.veithen.daemon</groupId>
                 <artifactId>daemon-maven-plugin</artifactId>
-                <version>0.3.0</version>
+                <version>0.3.1-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <id>start-repo</id>
