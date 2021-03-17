@@ -62,7 +62,7 @@
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
                 <artifactId>org.eclipse.equinox.common</artifactId>
-                <version>3.14.0</version>
+                <version>3.14.100</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
@@ -72,7 +72,7 @@
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
                 <artifactId>org.eclipse.equinox.registry</artifactId>
-                <version>3.10.0</version>
+                <version>3.10.100</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
@@ -82,7 +82,7 @@
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
                 <artifactId>org.eclipse.core.jobs</artifactId>
-                <version>3.10.1000</version>
+                <version>3.10.1100</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
@@ -188,7 +188,7 @@
         <dependency>
             <groupId>org.eclipse.platform</groupId>
             <artifactId>org.eclipse.equinox.p2.metadata.repository</artifactId>
-            <version>1.3.400</version>
+            <version>1.3.500</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.platform</groupId>
