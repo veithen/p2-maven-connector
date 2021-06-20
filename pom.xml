@@ -146,7 +146,7 @@
         <dependency>
             <groupId>org.eclipse.ecf</groupId>
             <artifactId>org.eclipse.ecf.identity</artifactId>
-            <version>3.9.401</version>
+            <version>3.9.402</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.ecf</groupId>
