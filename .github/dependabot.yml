@@ -7,6 +7,10 @@ updates:
     ignore:
       - dependency-name: "org.eclipse.jetty:jetty-proxy"
         versions: ">= 10.0"
+      - dependency-name: "org.eclipse.platform:org.eclipse.equinox.p2.jarprocessor"
+        versions: ">= 1.2.0"
+      - dependency-name: "org.eclipse.platform:org.eclipse.equinox.p2.metadata.repository"
+        versions: ">= 1.4.0"
       - dependency-name: "org.eclipse.platform:org.eclipse.equinox.p2.repository"
         versions: ">= 2.5.0"
       - dependency-name: "org.eclipse.platform:org.eclipse.equinox.p2.transport.ecf"
