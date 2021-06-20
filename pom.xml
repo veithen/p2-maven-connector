@@ -57,7 +57,7 @@
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
                 <artifactId>org.eclipse.osgi</artifactId>
-                <version>3.16.200</version>
+                <version>3.16.300</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
@@ -151,7 +151,7 @@
         <dependency>
             <groupId>org.eclipse.ecf</groupId>
             <artifactId>org.eclipse.ecf.provider.filetransfer.httpclient45</artifactId>
-            <version>1.0.400</version>
+            <version>1.0.401</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -225,7 +225,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-proxy</artifactId>
-            <version>9.4.41.v20210516</version>
+            <version>9.4.42.v20210604</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
