@@ -198,7 +198,7 @@
         <dependency>
             <groupId>org.eclipse.platform</groupId>
             <artifactId>org.eclipse.osgi.compatibility.state</artifactId>
-            <version>1.2.400</version>
+            <version>1.2.500</version>
         </dependency>
         <dependency><!-- Maven supports SLF4J, so use it. -->
             <groupId>org.slf4j</groupId>
