@@ -24,7 +24,7 @@
     <parent>
         <groupId>com.github.veithen</groupId>
         <artifactId>parent</artifactId>
-        <version>36</version>
+        <version>37</version>
     </parent>
 
     <groupId>com.github.veithen.maven</groupId>
@@ -51,6 +51,7 @@
     <properties>
         <github.repository>p2-maven-connector</github.repository>
         <javaVersion>11</javaVersion>
+        <project.build.outputTimestamp>2022-01-23T12:41:00Z</project.build.outputTimestamp>
     </properties>
 
     <dependencyManagement>
