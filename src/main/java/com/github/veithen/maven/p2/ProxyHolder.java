@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class ProxyHolder {
     public interface Lease extends AutoCloseable {
+        @Override
         void close();
     }
 

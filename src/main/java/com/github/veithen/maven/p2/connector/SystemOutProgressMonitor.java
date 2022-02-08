@@ -24,27 +24,35 @@ import org.eclipse.core.runtime.IProgressMonitor;
 final class SystemOutProgressMonitor implements IProgressMonitor {
     private boolean canceled;
 
+    @Override
     public void beginTask(String name, int totalWork) {}
 
+    @Override
     public void done() {}
 
+    @Override
     public void internalWorked(double work) {}
 
+    @Override
     public boolean isCanceled() {
         return canceled;
     }
 
+    @Override
     public void setCanceled(boolean value) {
         canceled = value;
     }
 
+    @Override
     public void setTaskName(String name) {}
 
+    @Override
     public void subTask(String name) {
         if (name.length() > 0) {
             System.out.println("  " + name);
         }
     }
 
+    @Override
     public void worked(int work) {}
 }
