@@ -153,7 +153,7 @@
         <dependency>
             <groupId>org.eclipse.ecf</groupId>
             <artifactId>org.eclipse.ecf.provider.filetransfer.httpclient45</artifactId>
-            <version>1.0.500</version>
+            <version>1.0.600</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
