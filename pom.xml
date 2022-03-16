@@ -64,7 +64,7 @@
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
                 <artifactId>org.eclipse.equinox.common</artifactId>
-                <version>3.15.100</version>
+                <version>3.16.0</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
@@ -180,7 +180,7 @@
         <dependency>
             <groupId>org.eclipse.platform</groupId>
             <artifactId>org.eclipse.equinox.p2.artifact.repository</artifactId>
-            <version>1.4.300</version>
+            <version>1.4.400</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.platform</groupId>
