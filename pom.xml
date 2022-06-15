@@ -69,7 +69,7 @@
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
                 <artifactId>org.eclipse.equinox.preferences</artifactId>
-                <version>3.9.100</version>
+                <version>3.10.1</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
@@ -120,6 +120,11 @@
                 <groupId>org.tukaani</groupId>
                 <artifactId>xz</artifactId>
                 <version>1.9</version>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.service.prefs</artifactId>
+                <version>1.1.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
