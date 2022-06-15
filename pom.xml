@@ -84,7 +84,7 @@
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
                 <artifactId>org.eclipse.core.jobs</artifactId>
-                <version>3.12.100</version>
+                <version>3.13.0</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
@@ -94,7 +94,7 @@
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
                 <artifactId>org.eclipse.equinox.p2.metadata</artifactId>
-                <version>2.6.100</version>
+                <version>2.6.200</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.platform</groupId>
@@ -185,7 +185,7 @@
         <dependency>
             <groupId>org.eclipse.platform</groupId>
             <artifactId>org.eclipse.equinox.p2.jarprocessor</artifactId>
-            <version>1.2.200</version>
+            <version>1.2.300</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.platform</groupId>
