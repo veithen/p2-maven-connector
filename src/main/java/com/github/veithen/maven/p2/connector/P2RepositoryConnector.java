@@ -24,9 +24,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import org.eclipse.aether.artifact.Artifact;
@@ -141,14 +143,18 @@ final class P2RepositoryConnector implements RepositoryConnector {
             logger.debug(String.format("Resolving artifact %s...", p2Coordinate));
         }
         IArtifactRepository artifactRepository = getArtifactRepository();
-        IArtifactDescriptor[] descriptors =
-                artifactRepository.getArtifactDescriptors(
-                        p2Coordinate.createIArtifactKey(artifactRepository));
-        if (descriptors.length == 0) {
+        Optional<IArtifactDescriptor> descriptor =
+                Arrays.stream(
+                                artifactRepository.getArtifactDescriptors(
+                                        p2Coordinate.createIArtifactKey(artifactRepository)))
+                        // Only consider .jar files, not .jar.pack.gz files; they are not supported
+                        // in Java 14.
+                        .filter(d -> d.getProperty(IArtifactDescriptor.FORMAT) == null)
+                        .findFirst();
+        if (descriptor.isEmpty()) {
             logger.debug("Not found");
             return false;
         }
-        IArtifactDescriptor descriptor = descriptors[0];
         String extension = artifact.getExtension();
         ArtifactHandler artifactHandler = artifactHandlers.get(extension);
         if (artifactHandler == null) {
@@ -165,7 +171,9 @@ final class P2RepositoryConnector implements RepositoryConnector {
         }
         writeFile(
                 artifactDownload.getFile(),
-                (out) -> artifactHandler.download(artifact, artifactRepository, descriptor, out));
+                (out) ->
+                        artifactHandler.download(
+                                artifact, artifactRepository, descriptor.get(), out));
         logger.debug("Artifact download complete");
         return true;
     }
