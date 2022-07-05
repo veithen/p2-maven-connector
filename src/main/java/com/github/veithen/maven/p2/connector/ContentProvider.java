@@ -22,6 +22,6 @@ package com.github.veithen.maven.p2.connector;
 import java.io.IOException;
 import java.io.OutputStream;
 
-abstract class ContentProvider {
-    abstract void writeTo(OutputStream out) throws IOException, DownloadException;
+interface ContentProvider {
+    void writeTo(OutputStream out) throws IOException, DownloadException;
 }

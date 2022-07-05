@@ -22,7 +22,6 @@ package com.github.veithen.maven.p2.connector;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
@@ -133,7 +132,7 @@ final class P2RepositoryConnector implements RepositoryConnector {
     }
 
     private boolean process(ArtifactDownload artifactDownload) throws DownloadException {
-        final Artifact artifact = artifactDownload.getArtifact();
+        Artifact artifact = artifactDownload.getArtifact();
         P2Coordinate p2Coordinate = ArtifactCoordinateMapper.createP2Coordinate(artifact);
         if (p2Coordinate == null) {
             return false;
@@ -141,7 +140,7 @@ final class P2RepositoryConnector implements RepositoryConnector {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format("Resolving artifact %s...", p2Coordinate));
         }
-        final IArtifactRepository artifactRepository = getArtifactRepository();
+        IArtifactRepository artifactRepository = getArtifactRepository();
         IArtifactDescriptor[] descriptors =
                 artifactRepository.getArtifactDescriptors(
                         p2Coordinate.createIArtifactKey(artifactRepository));
@@ -149,9 +148,9 @@ final class P2RepositoryConnector implements RepositoryConnector {
             logger.debug("Not found");
             return false;
         }
-        final IArtifactDescriptor descriptor = descriptors[0];
+        IArtifactDescriptor descriptor = descriptors[0];
         String extension = artifact.getExtension();
-        final ArtifactHandler artifactHandler = artifactHandlers.get(extension);
+        ArtifactHandler artifactHandler = artifactHandlers.get(extension);
         if (artifactHandler == null) {
             if (logger.isDebugEnabled()) {
                 logger.debug(String.format("No handler found for extension %s", extension));
@@ -166,12 +165,7 @@ final class P2RepositoryConnector implements RepositoryConnector {
         }
         writeFile(
                 artifactDownload.getFile(),
-                new ContentProvider() {
-                    @Override
-                    void writeTo(OutputStream out) throws IOException, DownloadException {
-                        artifactHandler.download(artifact, artifactRepository, descriptor, out);
-                    }
-                });
+                (out) -> artifactHandler.download(artifact, artifactRepository, descriptor, out));
         logger.debug("Artifact download complete");
         return true;
     }
@@ -190,7 +184,7 @@ final class P2RepositoryConnector implements RepositoryConnector {
         if (queryResult.isEmpty()) {
             return false;
         }
-        final Document document = DOMUtil.createDocument();
+        Document document = DOMUtil.createDocument();
         Element metadataElement = document.createElement("metadata");
         document.appendChild(metadataElement);
         Element groupIdElement = document.createElement("groupId");
@@ -208,14 +202,7 @@ final class P2RepositoryConnector implements RepositoryConnector {
             versionElement.setTextContent(artifactKey.getVersion().toString());
             versionsElement.appendChild(versionElement);
         }
-        writeFile(
-                metadataDownload.getFile(),
-                new ContentProvider() {
-                    @Override
-                    void writeTo(OutputStream out) throws IOException, DownloadException {
-                        DOMUtil.serialize(document, out);
-                    }
-                });
+        writeFile(metadataDownload.getFile(), (out) -> DOMUtil.serialize(document, out));
         return true;
     }
 
