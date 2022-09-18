@@ -50,6 +50,7 @@
         <github.repository>p2-maven-connector</github.repository>
         <javaVersion>11</javaVersion>
         <project.build.outputTimestamp>2022-07-05T23:26:38Z</project.build.outputTimestamp>
+        <bouncycastle.version>1.71.1</bouncycastle.version>
     </properties>
 
     <dependencyManagement>
@@ -128,6 +129,26 @@
                 <groupId>org.eclipse.platform</groupId>
                 <artifactId>org.eclipse.core.runtime</artifactId>
                 <version>3.26.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.platform</groupId>
+                <artifactId>org.eclipse.core.contenttype</artifactId>
+                <version>3.8.200</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.platform</groupId>
+                <artifactId>org.eclipse.equinox.app</artifactId>
+                <version>1.6.200</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpg-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
