@@ -234,7 +234,7 @@
         <dependency><!-- Maven supports SLF4J, so use it. -->
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            <version>2.0.5</version>
+            <version>2.0.6</version>
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
