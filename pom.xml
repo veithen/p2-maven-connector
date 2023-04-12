@@ -50,7 +50,7 @@
         <github.repository>p2-maven-connector</github.repository>
         <javaVersion>11</javaVersion>
         <project.build.outputTimestamp>2022-07-05T23:26:38Z</project.build.outputTimestamp>
-        <bouncycastle.version>1.72</bouncycastle.version>
+        <bouncycastle.version>1.73</bouncycastle.version>
     </properties>
 
     <dependencyManagement>
