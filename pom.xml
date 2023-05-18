@@ -27,7 +27,7 @@
 
     <groupId>com.github.veithen.maven</groupId>
     <artifactId>p2-maven-connector</artifactId>
-    <version>0.6.1-SNAPSHOT</version>
+    <version>0.7.0-SNAPSHOT</version>
 
     <url>https://github.com/veithen/p2-maven-connector</url>
     <inceptionYear>2012</inceptionYear>
@@ -48,7 +48,7 @@
 
     <properties>
         <github.repository>p2-maven-connector</github.repository>
-        <javaVersion>11</javaVersion>
+        <javaVersion>17</javaVersion>
         <project.build.outputTimestamp>2022-07-05T23:26:38Z</project.build.outputTimestamp>
         <bouncycastle.version>1.73</bouncycastle.version>
     </properties>
@@ -268,6 +268,14 @@
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <!-- Eclipse Sisu isn't compatible with Java 17 yet. Build for Java 11;
+                         everything else can still be configured for Java 17. -->
+                    <release>11</release>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
