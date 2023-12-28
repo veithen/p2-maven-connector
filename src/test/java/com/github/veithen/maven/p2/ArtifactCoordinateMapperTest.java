@@ -19,7 +19,7 @@
  */
 package com.github.veithen.maven.p2;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.equinox.p2.metadata.Version;
