@@ -18,7 +18,6 @@
  * #L%
  */
 import java.io.*;
-import com.google.common.truth.*;
 
 BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(new File(basedir, "../../proxy.log")), "utf-8"));
 String line;
@@ -30,4 +29,4 @@ while ((line = in.readLine()) != null) {
     }
 }
 in.close();
-Truth.assertThat(found).isTrue();
+return found;

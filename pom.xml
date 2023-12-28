@@ -429,7 +429,6 @@
                         </goals>
                         <configuration>
                             <debug>true</debug>
-                            <addTestClassPath>true</addTestClassPath>
                             <mavenOpts>${argLine} -Dsisu.debug</mavenOpts>
                         </configuration>
                     </execution>
