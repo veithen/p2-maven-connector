@@ -445,7 +445,6 @@
                 <artifactId>license-maven-plugin</artifactId>
                 <configuration>
                     <projectName>p2-maven-connector</projectName>
-                    <licenseName>apache_v2</licenseName>
                 </configuration>
             </plugin>
         </plugins>
