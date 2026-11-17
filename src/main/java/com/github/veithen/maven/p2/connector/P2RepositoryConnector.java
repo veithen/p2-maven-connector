@@ -171,7 +171,7 @@ final class P2RepositoryConnector implements RepositoryConnector {
         }
         writeFile(
                 artifactDownload.getFile(),
-                (out) ->
+                out ->
                         artifactHandler.download(
                                 artifact, artifactRepository, descriptor.get(), out));
         logger.debug("Artifact download complete");
@@ -210,7 +210,7 @@ final class P2RepositoryConnector implements RepositoryConnector {
             versionElement.setTextContent(artifactKey.getVersion().toString());
             versionsElement.appendChild(versionElement);
         }
-        writeFile(metadataDownload.getFile(), (out) -> DOMUtil.serialize(document, out));
+        writeFile(metadataDownload.getFile(), out -> DOMUtil.serialize(document, out));
         return true;
     }
 
